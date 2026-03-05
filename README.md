@@ -2,6 +2,14 @@
 
 AI-Based Sustainable Packaging Recommendation System built with Flask, Machine Learning, and PostgreSQL.
 
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-API-000000?logo=flask&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-Regression-EC1C24)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql&logoColor=white)
+![Render](https://img.shields.io/badge/Deploy-Render-46E3B7)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+
 ![Dashboard Overview](images/dashboard-main.png)
 
 ## 🚀 Project Overview
@@ -169,19 +177,31 @@ Two model roles:
 
 ### Main BI Dashboard
 
-![Main Dashboard](images/dashboard-main.png)
+<img src="images/dashboard-main.png" alt="Main Dashboard" width="100%" />
 
 ### Material Distribution & Comparison
 
-![Material Distribution](images/material-distribution.png)
+<img src="images/material-distribution.png" alt="Material Distribution" width="100%" />
 
 ### Sustainability Ranking & Recommendation Trends
 
-![Recommendation Trends](images/recommendation-trends.png)
+<img src="images/recommendation-trends.png" alt="Recommendation Trends" width="100%" />
 
 ### Best Material Output (Notebook Validation)
 
-![Best Material Output](images/best-material-output.png)
+<img src="images/best-material-output.png" alt="Best Material Output" width="70%" />
+
+## 🧩 Screenshot File Checklist
+
+Place these exact files inside the `images/` folder (same spelling and case):
+
+- `architecture_new.png`
+- `dashboard-main.png`
+- `material-distribution.png`
+- `recommendation-trends.png`
+- `model-metrics-cost.png`
+- `model-metrics-co2.png`
+- `best-material-output.png`
 
 ## 👨‍💻 Author
 
