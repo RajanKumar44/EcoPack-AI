@@ -2,6 +2,8 @@
 
 AI-Based Sustainable Packaging Recommendation System built with Flask, Machine Learning, and PostgreSQL.
 
+![Dashboard Overview](images/dashboard-main.png)
+
 ## 🚀 Project Overview
 
 EcoPack-AI recommends the most suitable packaging material based on:
@@ -28,6 +30,12 @@ Recommendations are stored in the database and visualized in a BI-style dashboar
 - Export support (PDF / Excel on frontend)
 - Environment-based DB configuration (PostgreSQL + SQLite fallback)
 
+## 🏛 Architecture
+
+The platform follows a layered architecture from UI → Flask API → ML models → PostgreSQL → BI dashboard.
+
+![System Architecture](images/architecture_new.png)
+
 ## 🏗 Tech Stack
 
 - **Backend:** Python, Flask, Flask-CORS
@@ -51,6 +59,14 @@ EcoPackAI/
 │   ├── style.css
 │   ├── script.js
 │   └── config.js
+├── images/
+│   ├── architecture_new.png
+│   ├── dashboard-main.png
+│   ├── material-distribution.png
+│   ├── recommendation-trends.png
+│   ├── model-metrics-cost.png
+│   ├── model-metrics-co2.png
+│   └── best-material-output.png
 ├── model_training.ipynb
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
@@ -138,6 +154,34 @@ Two model roles:
 
 - Random Forest → packaging cost prediction
 - XGBoost → CO₂ prediction used in ranking
+
+### Model Results Snapshot
+
+**Random Forest (Cost Prediction):**
+
+![Random Forest Metrics](images/model-metrics-cost.png)
+
+**XGBoost (CO₂ Prediction):**
+
+![XGBoost Metrics](images/model-metrics-co2.png)
+
+## 🖥 Dashboard Screenshots
+
+### Main BI Dashboard
+
+![Main Dashboard](images/dashboard-main.png)
+
+### Material Distribution & Comparison
+
+![Material Distribution](images/material-distribution.png)
+
+### Sustainability Ranking & Recommendation Trends
+
+![Recommendation Trends](images/recommendation-trends.png)
+
+### Best Material Output (Notebook Validation)
+
+![Best Material Output](images/best-material-output.png)
 
 ## 👨‍💻 Author
 
