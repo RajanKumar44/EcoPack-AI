@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPackAI - BI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <i class="fas fa-leaf brand-icon"></i>
+        <span class="brand-text">EcoPackAI</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-section="dashboard">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-section="recommendations">
+            <i class="fas fa-box"></i>
+            <span>Recommendations</span>
+        </a>
+        <a href="#" class="nav-item" data-section="analytics">
+            <i class="fas fa-chart-pie"></i>
+            <span>Analytics</span>
+        </a>
+        <a href="#" class="nav-item" data-section="reports">
+            <i class="fas fa-file-export"></i>
+            <span>Reports</span>
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <div class="user-info">
+            <i class="fas fa-user-circle"></i>
+            <span>Dashboard v2.0</span>
+        </div>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content">
+    <!-- Top Header Bar -->
+    <header class="top-header">
+        <div class="header-left">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="page-title">Sustainable Packaging Intelligence</h1>
+        </div>
+        <div class="header-right">
+            <div class="header-actions">
+                <button class="header-btn" id="refreshBtn" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="header-btn" id="settingsBtn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+            <div class="header-divider"></div>
+            <span class="last-updated">Last updated: <span id="lastUpdateTime">--</span></span>
+        </div>
+    </header>
+
+    <!-- Filter Panel -->
+    <section class="filter-panel">
+        <div class="filter-header">
+            <i class="fas fa-filter"></i>
+            <span>Filters</span>
+        </div>
+        <form id="recommendationForm" class="filter-form">
+            <div class="filter-group">
+                <label class="filter-label">Product Category</label>
+                <select class="filter-select" id="product_category" required>
+                    <option value="">Select Category</option>
+                    <option value="food">Food</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="cosmetics">Cosmetics</option>
+                    <option value="pharmaceuticals">Pharmaceuticals</option>
+                    <option value="fragile_goods">Fragile Goods</option>
+                    <option value="textiles">Textiles</option>
+                    <option value="furniture">Furniture</option>
+                    <option value="industrial_parts">Industrial Parts</option>
+                    <option value="stationery">Stationery</option>
+                    <option value="ecommerce_general">E-commerce</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Fragility Level</label>
+                <select class="filter-select" id="fragility" required>
+                    <option value="">Select Level</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Shipping Type</label>
+                <select class="filter-select" id="shipping_type" required>
+                    <option value="">Select Type</option>
+                    <option value="domestic">Domestic</option>
+                    <option value="international">International</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Sustainability Priority</label>
+                <select class="filter-select" id="sustainability_priority" required>
+                    <option value="">Select Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="filter-actions">
+                <button type="submit" class="btn-primary-action">
+                    <i class="fas fa-play"></i> Generate
+                </button>
+                <button type="button" id="clearFormBtn" class="btn-secondary-action">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- KPI Cards Row -->
+    <section class="kpi-section">
+        <div class="kpi-card kpi-green clickable-card" data-chart-mode="co2_reduction">
+            <div class="kpi-icon">
+                <i class="fas fa-cloud"></i>
+            </div>
+            <div class="kpi-content">
+                <span class="kpi-value" id="co2ReductionValue">--</span>
+                <span class="kpi-label">CO₂ Reduction</span>
+                <span class="kpi-trend positive" id="co2ReductionSubtext">
+                    <i class="fas fa-arrow-up"></i> Run analysis
+                </span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-orange clickable-card" data-chart-mode="cost_savings">
+            <div class="kpi-icon">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="kpi-content">
+                <span class="kpi-value" id="costSavingsValue">--</span>
+                <span class="kpi-label">Cost Savings</span>
+                <span class="kpi-trend positive" id="costSavingsSubtext">
+                    <i class="fas fa-arrow-up"></i> Run analysis
+                </span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-blue">
+            <div class="kpi-icon">
+                <i class="fas fa-clipboard-list"></i>
+            </div>
+            <div class="kpi-content">
+                <span class="kpi-value" id="totalRecs">0</span>
+                <span class="kpi-label">Total Recommendations</span>
+                <span class="kpi-trend neutral">
+                    <i class="fas fa-chart-bar"></i> All time
+                </span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-purple">
+            <div class="kpi-icon">
+                <i class="fas fa-recycle"></i>
+            </div>
+            <div class="kpi-content">
+                <span class="kpi-value" id="sustainabilityScore">--</span>
+                <span class="kpi-label">Sustainability Index</span>
+                <span class="kpi-trend neutral">
+                    <i class="fas fa-leaf"></i> Eco Score
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Grid -->
+    <section class="dashboard-grid">
+        <!-- Material Prediction Table -->
+        <div class="dashboard-card card-wide">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-table"></i>
+                    Material Recommendations
+                </div>
+                <div class="card-actions">
+                    <button type="button" id="exportExcelBtn" class="card-action-btn" disabled title="Export to Excel">
+                        <i class="fas fa-file-excel"></i>
+                    </button>
+                    <button type="button" id="exportPdfBtn" class="card-action-btn" disabled title="Export to PDF">
+                        <i class="fas fa-file-pdf"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-cube"></i> Material</th>
+                                <th><i class="fas fa-dollar-sign"></i> Predicted Cost</th>
+                                <th><i class="fas fa-cloud"></i> Predicted CO₂</th>
+                                <th><i class="fas fa-star"></i> Suitability Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTable">
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    <i class="fas fa-search"></i>
+                                    <span>Select filters and click Generate to view recommendations</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Primary Chart Panel -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-title" id="primaryChartTitle">
+                    <i class="fas fa-chart-bar"></i>
+                    Material Comparison
+                </div>
+                <div class="chart-tabs" role="tablist">
+                    <button type="button" class="chart-tab active" data-chart-mode="material_comparison">
+                        <i class="fas fa-chart-bar"></i>
+                    </button>
+                    <button type="button" class="chart-tab" data-chart-mode="ranking_display">
+                        <i class="fas fa-trophy"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="chart-subtitle" id="primaryChartAxisInfo">Material names vs Suitability score</p>
+                <div class="chart-area">
+                    <div id="primaryChartCanvas"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Charts Grid -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-chart-pie"></i>
+                    Material Distribution
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrapper">
+                    <canvas id="materialPie"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-sort-amount-down"></i>
+                    Material Usage Ranking
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrapper">
+                    <canvas id="materialUsageBar"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-medal"></i>
+                    Sustainability Ranking
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrapper">
+                    <canvas id="rankingHorizontalBar"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-chart-line"></i>
+                    Recommendation Trends
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrapper">
+                    <canvas id="trendsLine"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Export Panel -->
+    <section class="export-panel">
+        <div class="export-header">
+            <i class="fas fa-download"></i>
+            <span>Quick Actions</span>
+        </div>
+        <div class="export-actions">
+            <button type="button" id="exportPdfBtnFooter" class="export-btn export-pdf" disabled>
+                <i class="fas fa-file-pdf"></i>
+                <span>Export PDF Report</span>
+            </button>
+            <button type="button" id="exportExcelBtnFooter" class="export-btn export-excel" disabled>
+                <i class="fas fa-file-excel"></i>
+                <span>Export Excel Data</span>
+            </button>
+            <button type="button" id="clearHistoryBtn" class="export-btn export-clear">
+                <i class="fas fa-trash-alt"></i>
+                <span>Clear History</span>
+            </button>
+        </div>
+    </section>
+</main>
+
+<!-- CO2 Reduction Modal -->
+<div id="co2Modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title"><i class="fas fa-cloud"></i> CO₂ Reduction Analysis</h2>
+            <button type="button" class="modal-close" id="co2ModalClose">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="co2ChartCanvas"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Cost Savings Modal -->
+<div id="costModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title"><i class="fas fa-dollar-sign"></i> Cost Savings Analysis</h2>
+            <button type="button" class="modal-close" id="costModalClose">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="costChartCanvas"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="settings-modal">
+    <div class="settings-content">
+        <div class="settings-header">
+            <h2 class="settings-title"><i class="fas fa-cog"></i> Settings</h2>
+            <button type="button" class="settings-close" id="settingsClose">&times;</button>
+        </div>
+        <div class="settings-body">
+            <div class="settings-item">
+                <div class="settings-label">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </div>
+                <label class="theme-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="theme-slider"></span>
+                </label>
+            </div>
+            <div class="settings-item">
+                <div class="settings-label">
+                    <i class="fas fa-sync"></i>
+                    <span>Auto Refresh</span>
+                </div>
+                <label class="theme-switch">
+                    <input type="checkbox" id="autoRefreshToggle">
+                    <span class="theme-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
